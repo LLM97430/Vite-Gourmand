@@ -38,7 +38,7 @@ final class HoraireController extends AbstractController
         $this->manager->persist($horaire);
         $this->manager->flush();
 
-        $responseData = $this->serializer->deserialize($horaire, Horaire::class, 'json');
+        $responseData = $this->serializer->serialize($horaire, 'json');
         $location = $this->urlGenerator->generate(
             'app_horaire_show',
             ['id' => $horaire->getId()],

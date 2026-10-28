@@ -3,53 +3,33 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 180)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $password = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $prenom = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $telephone = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $ville = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $pays = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $adressePostale = null;
+    /**
+     * @var list<string> The user roles
+     */
+    #[ORM\Column]
+    private array $roles = [];
 
     /**
-     * @var Collection<int, Commande>
+     * @var string The hashed password
      */
-    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'utilisateur')]
-    private Collection $commandes;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Role $role = null;
-
-    public function __construct()
-    {
-        $this->commandes = new ArrayCollection();
-    }
+    #[ORM\Column]
+    private ?string $password = null;
 
     public function getId(): ?int
     {
@@ -68,6 +48,41 @@ class Utilisateur
         return $this;
     }
 
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    /**
+     * @param list<string> $roles
+     */
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
     public function getPassword(): ?string
     {
         return $this->password;
@@ -80,105 +95,14 @@ class Utilisateur
         return $this;
     }
 
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
-
-    public function setPrenom(string $prenom): static
-    {
-        $this->prenom = $prenom;
-
-        return $this;
-    }
-
-    public function getTelephone(): ?string
-    {
-        return $this->telephone;
-    }
-
-    public function setTelephone(string $telephone): static
-    {
-        $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    public function getVille(): ?string
-    {
-        return $this->ville;
-    }
-
-    public function setVille(string $ville): static
-    {
-        $this->ville = $ville;
-
-        return $this;
-    }
-
-    public function getPays(): ?string
-    {
-        return $this->pays;
-    }
-
-    public function setPays(string $pays): static
-    {
-        $this->pays = $pays;
-
-        return $this;
-    }
-
-    public function getAdressePostale(): ?string
-    {
-        return $this->adressePostale;
-    }
-
-    public function setAdressePostale(string $adressePostale): static
-    {
-        $this->adressePostale = $adressePostale;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, Commande>
+     * Ensure the session doesn't contain actual password hashes by CRC32C-hashing them, as supported since Symfony 7.3.
      */
-    public function getCommandes(): Collection
+    public function __serialize(): array
     {
-        return $this->commandes;
-    }
-
-    public function addCommande(Commande $commande): static
-    {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes->add($commande);
-            $commande->setUtilisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommande(Commande $commande): static
-    {
-        if ($this->commandes->removeElement($commande)) {
-            // set the owning side to null (unless already changed)
-            if ($commande->getUtilisateur() === $this) {
-                $commande->setUtilisateur(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getRole(): ?Role
-    {
-        return $this->role;
-    }
-
-    public function setRole(?Role $role): static
-    {
-        $this->role = $role;
-
-        return $this;
+        $data = (array) $this;
+        $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
+        
+        return $data;
     }
 }
