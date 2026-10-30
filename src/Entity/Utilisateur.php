@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -30,6 +32,36 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $prenom = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $telephone = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $ville = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $pays = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $adressePostale = null;
+
+    /**
+     * @var Collection<int, Role>
+     */
+    #[ORM\ManyToMany(targetEntity: Role::class)]
+    private Collection $role;
+
+    #[ORM\Column(length: 255)]
+    private ?string $apiToken = null;
+
+    public function __construct()
+    {
+        $this->apiToken=bin2hex(random_bytes(20));
+        $this->role = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,5 +136,101 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $data["\0" . self::class . "\0password"] = hash('crc32c', $this->password);
         
         return $data;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): static
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(string $telephone): static
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(string $ville): static
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getPays(): ?string
+    {
+        return $this->pays;
+    }
+
+    public function setPays(string $pays): static
+    {
+        $this->pays = $pays;
+
+        return $this;
+    }
+
+    public function getAdressePostale(): ?string
+    {
+        return $this->adressePostale;
+    }
+
+    public function setAdressePostale(string $adressePostale): static
+    {
+        $this->adressePostale = $adressePostale;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Role>
+     */
+    public function getRole(): Collection
+    {
+        return $this->role;
+    }
+
+    public function addRole(Role $role): static
+    {
+        if (!$this->role->contains($role)) {
+            $this->role->add($role);
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): static
+    {
+        $this->role->removeElement($role);
+
+        return $this;
+    }
+
+    public function getApiToken(): ?string
+    {
+        return $this->apiToken;
+    }
+
+    public function setApiToken(string $apiToken): static
+    {
+        $this->apiToken = $apiToken;
+
+        return $this;
     }
 }
