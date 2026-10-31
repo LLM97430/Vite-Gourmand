@@ -12,10 +12,7 @@ class Commande
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $numeroCommande = null;
+    private ?int $numeroCommande = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $dateCommande = null;
@@ -52,21 +49,9 @@ class Commande
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $utilisateur = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getNumeroCommande(): ?string
+    public function getNumeroCommande(): ?int
     {
         return $this->numeroCommande;
-    }
-
-    public function setNumeroCommande(string $numeroCommande): static
-    {
-        $this->numeroCommande = $numeroCommande;
-
-        return $this;
     }
 
     public function getDateCommande(): ?\DateTime

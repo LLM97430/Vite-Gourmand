@@ -50,8 +50,11 @@ class Plat
         return $this;
     }
 
-    public function getPhoto(): mixed
+    public function getPhoto(): ?string
     {
+        if(is_resource($this->photo)) {
+            return stream_get_contents($this->photo);
+        }
         return $this->photo;
     }
 

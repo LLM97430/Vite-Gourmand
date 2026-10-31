@@ -34,10 +34,7 @@ final class AvisController extends AbstractController
     {
         $avis = $this->serializer->deserialize($request->getContent(), type: Avis::class, format:'json');
 
-        $avis->setNote(note: 5);
-        $avis->setDescription(description: "You good!");
-        $avis->setStatut(statut:"Confirmé");
-        $avis->setUtilisateur($utilisateur->getId());
+        $avis->setUtilisateur($utilisateur);
 
         $this->manager->persist($avis);
         $this->manager->flush();

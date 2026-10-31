@@ -26,13 +26,10 @@ final class SecurityController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $passwordHascher): JsonResponse
     {
         $utilisateur = $this->serializer->deserialize($request->getContent(), Utilisateur::class, 'json');
-        $utilisateur->setPassword($passwordHascher->hashPassword($utilisateur, $utilisateur->getPassword()));
-        $utilisateur->setemail($utilisateur->getEmail());  
-        $utilisateur->setprenom($utilisateur->getPrenom());     
-        $utilisateur->settelephone($utilisateur->getTelephone());
-        $utilisateur->setville($utilisateur->getVille());    
-        $utilisateur->setpays($utilisateur->getPays());
-        $utilisateur->setadressePostale($utilisateur->getAdressePostale()); 
+
+        if(!$utilisateur->getApiToken()) {
+            $utilisateur->setApiToken((bin2hex(random_bytes(20))));
+            }
 
         $this->manager->persist($utilisateur);
         $this->manager->flush();
