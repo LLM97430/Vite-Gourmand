@@ -4,11 +4,32 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Vite & Gourmand</title>
-   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+   <link rel="stylesheet" href="scss/main.css">
 </head>
 <body>
    <header>
-      <h3>Mon header</h3>
+      <div class="nav-overflow" data-bs-toggle="nav-overflow">
+         <ul class="nav nav-tabs">
+            <li class="nav-item">
+               <a class="nav-link active" aria-current="page" href="/Vite_Gourmand_Front/">Accueil</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="/Vite_Gourmand_Front/menus">Nos menus</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#">Connexion</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#">Déconnexion</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#">Inscription</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#">Nous contacter</a>
+            </li>
+         </ul>
+      </div>
    </header>
 
    <main id="main-page">
@@ -16,9 +37,11 @@
    </main>
 
    <footer>
-      <h3>Mon footer</h3>
+      <h3>Du lundi au dimanche A RELIER AVEC LE BACK</h3>
+      <p><a href="/"></a>Mentions légales</p>
+      <p><a href="/"></a>Conditions Générales de Vente</p>
    </footer>
    <script type="module" src="Router/router.js"></script>
-   <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   <script type="module" src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 </body>
 </html>

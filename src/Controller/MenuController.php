@@ -44,6 +44,20 @@ use Symfony\Component\Serializer\SerializerInterface;
             return new JsonResponse($responseData, Response::HTTP_CREATED, ["Location" => $location], true);
             }
 
+        #[Route('/', name: 'show', methods: ['GET'])]
+        public function showAllMenus(int $id): Response
+        {
+            $menu = $this->repository->find($id);
+
+            if($menu) 
+                {
+                    $responseData = $this->serializer->serialize($menu, 'json');
+                    return new JsonResponse($responseData, Response::HTTP_OK, [], true);
+            }
+
+            return new JsonResponse(null, Response::HTTP_NOT_FOUND);
+            }
+
         #[Route('/{id}', name: 'show', methods: ['GET'])]
         public function show(int $id): Response
         {

@@ -43,23 +43,11 @@ const LoadContentPage = async () => {
       var scriptTag=document.createElement("script");
       scriptTag.setAttribute("type", "text/javascript");
       scriptTag.setAttribute("src", actualRoute.pathJS);
-      scriptTag.setAttribute("id", "dynamoc-script");
+      scriptTag.setAttribute("id", "dynamic-script");
 
       // Ajout de la balise script dans le body  
       document.querySelector("body").appendChild(scriptTag);
    }
-
-
-    // Ajout du contenu JavaScript
-   if (actualRoute.pathJS != "") {
-        // Création d'une balise script
-      var scriptTag = document.createElement("script");
-      scriptTag.setAttribute("type", "text/javascript");
-      scriptTag.setAttribute("src", actualRoute.pathJS);
-
-        // Ajout de la balise script au corps du document
-      document.querySelector("body").appendChild(scriptTag);
-}
 
     // Changement du titre de la page
    document.title = actualRoute.title + " - " + websiteName;
