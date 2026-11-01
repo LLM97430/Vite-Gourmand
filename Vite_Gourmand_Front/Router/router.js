@@ -2,7 +2,7 @@ import Route from "./Route.js";
 import { allRoutes, websiteName } from "./allRoutes.js";
 
 // Création d'une route pour la page 404 (page introuvable)
-const route404 = new Route("404", "Page introuvable", "/pages/404.html");
+const route404 = new Route("404", "Page introuvable", "/Vite_Gourmand_Front/pages/404.html");
 
 // Fonction pour récupérer la route correspondant à une URL donnée
 const getRouteByUrl = (url) => {
@@ -26,10 +26,29 @@ const LoadContentPage = async () => {
    const path = window.location.pathname;
     // Récupération de l'URL actuelle
    const actualRoute = getRouteByUrl(path);
+
+   //Nettoyage de l'ancien script s'il existe
+   const oldScript = document.getElementById('dynamic-script');
+   if(oldScript) {
+      oldScript.remove();
+   }
+
     // Récupération du contenu HTML de la route
    const html = await fetch(actualRoute.pathHtml).then((data) => data.text());
     // Ajout du contenu HTML à l'élément avec l'ID "main-page"
    document.getElementById("main-page").innerHTML = html;
+
+   // Injection du nouveau script s'il y en a un pour la route actuel
+   if (actualRoute.pathJS != "") {
+      var scriptTag=document.createElement("script");
+      scriptTag.setAttribute("type", "text/javascript");
+      scriptTag.setAttribute("src", actualRoute.pathJS);
+      scriptTag.setAttribute("id", "dynamoc-script");
+
+      // Ajout de la balise script dans le body  
+      document.querySelector("body").appendChild(scriptTag);
+   }
+
 
     // Ajout du contenu JavaScript
    if (actualRoute.pathJS != "") {
@@ -61,19 +80,5 @@ window.onpopstate = LoadContentPage;
 // Assignation de la fonction routeEvent à la propriété route de la fenêtre
 window.route = routeEvent;
 
-//Nettoyage des anciens scripts
-const oldScript = document.getElementById('dynamic-script');
-if(oldScript) {
-   oldScript.remove();
-}
-
-if (actualRoute.pathJS != "") {
-   var scriptTag=document.createElement("script");
-   scriptTag.setAttribute("type", "text/javascript");
-   scriptTag.setAttribute("src", actualRoute.pathJS);
-   scriptTag.setAttribute("id", "dynamoc-script");
-
-   document.querySelector("body").appendChild(scriptTag);
-}
 // Chargement du contenu de la page au chargement initial
 LoadContentPage();
