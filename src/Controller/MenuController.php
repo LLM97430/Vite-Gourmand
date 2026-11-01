@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-    #[Route('/menu', name: 'app_menu_')]
+    #[Route('/api/menu', name: 'app_menu_')]
     final class MenuController extends AbstractController
     {
         public function __construct(
@@ -58,7 +58,7 @@ use Symfony\Component\Serializer\SerializerInterface;
             return new JsonResponse(null, Response::HTTP_NOT_FOUND);
             }
 
-        #[Route('/{id}', name: 'edit', methods: ['PATCH'])]
+        #[Route('/{id}/edit', name: 'edit', methods: ['PATCH'])]
         public function edit(int $id, Request $request): Response
         {
             $menu = $this->repository->find($id);

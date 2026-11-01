@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-#[Route('/commande', name: 'app_commande_')]
+#[Route('/api/commande', name: 'app_commande_')]
 final class CommandeController extends AbstractController
 {
     public function __construct(
@@ -35,7 +35,7 @@ final class CommandeController extends AbstractController
         $commande = $this->serializer->deserialize($request->getContent(), type: Commande::class, format:'json');
 
         $commande->setDateCommande(new DateTime());
-        $commande->setStatut("accepté");
+        $commande->setStatut("en cours de traitement");
         $commande->setUtilisateur($utilisateur);
 
         $this->manager->persist($commande);

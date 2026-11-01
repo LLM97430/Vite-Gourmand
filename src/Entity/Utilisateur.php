@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -48,19 +46,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50)]
     private ?string $adressePostale = null;
 
-    /**
-     * @var Collection<int, Role>
-     */
-    #[ORM\ManyToMany(targetEntity: Role::class)]
-    private Collection $role;
-
     #[ORM\Column(length: 255)]
     private ?string $apiToken = null;
 
     public function __construct()
     {
         $this->apiToken=bin2hex(random_bytes(20));
-        $this->role = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,7 +87,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -194,30 +184,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAdressePostale(string $adressePostale): static
     {
         $this->adressePostale = $adressePostale;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Role>
-     */
-    public function getRole(): Collection
-    {
-        return $this->role;
-    }
-
-    public function addRole(Role $role): static
-    {
-        if (!$this->role->contains($role)) {
-            $this->role->add($role);
-        }
-
-        return $this;
-    }
-
-    public function removeRole(Role $role): static
-    {
-        $this->role->removeElement($role);
 
         return $this;
     }
