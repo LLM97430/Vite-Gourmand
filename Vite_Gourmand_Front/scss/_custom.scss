@@ -1,6 +1,32 @@
-// Custom.scss
-// Include all of Bootstrap
+@use "../node_modules/bootstrap/scss/bootstrap" with (
+$theme-colors: (
+   "brand": (
+   "base": var(--orange-300),
+   "bg": var(--orange-300),
+   "contrast": var(--orange-300)
+   )
+)
+);
 
-@use "../node_modules/bootstrap/scss/bootstrap";
+/* Application sur les liens de navigation */
+a.nav-link.active{
+   color: var(--orange-300);
+}
 
-// Then add additional custom code here
+a.nav-link:hover{
+   background-color: var(--orange-300);
+   opacity: 0.7;
+   color: var(--orange-950);
+}
+
+a{
+   color: var(--orange-100);
+}
+
+footer{
+   color: var(--orange-300);
+}
+
+.hero-image{
+   opacity: 0.3;
+}
