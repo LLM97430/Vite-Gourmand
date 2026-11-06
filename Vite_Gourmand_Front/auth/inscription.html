@@ -1,0 +1,69 @@
+<form class="grid grid-cols-1 gap-5" data-bs-validate novalidate>
+   <div class="form-group">
+      <label class="form-label">Vos informations personnelles</label>
+         <div class="grid gap-5">
+            <div class="form-field md:g-col-6">
+               <label for="prenom" class="form-label">Prénom</label>
+               <input type="text" class="form-control" id="prenom" required aria-describedby="prenomFeedback" placeholder="Jean" required>
+               <div id="prenomFeedback" class="invalid-feedback">Veuillez entrer votre prénom</div>
+            </div>
+            <div class="form-field md:g-col-6">
+               <label for="nom" class="form-label">Nom</label>
+               <input type="text" class="form-control" id="nom" aria-describedby="nomFeedback" required placeholder="Dupont" required>
+               <div id="nomFeedback" class="invalid-feedback">Veuillez entrer votre nom de famille</div>
+            </div>
+         </div>
+         <div class="form-field">
+            <label for="adresse" class="form-label">Adresse</label>
+            <input type="text" class="form-control" id="adresse" required aria-describedby="adresseFeedback" placeholder="123 Rue de la Paix" required>
+            <div id="adresseFeedback" class="invalid-feedback">Veuillez entrer une adresse</div>
+         </div>
+   </div>
+
+   <div class="grid gap-5">
+      <div class="form-field md:g-col-6">
+         <label for="ville" class="form-label">Ville</label>
+         <input type="text" class="form-control" id="ville" required aria-describedby="villeFeedback" placeholder="Paris" required>
+         <div id="villeFeedback" class="invalid-feedback">Veuillez entrer une ville</div>
+      </div>
+      <div class="form-field md:g-col-2">
+         <label for="code_postal" class="form-label">Code postal</label>
+         <input type="text" class="form-control" id="code_postal" required aria-describedby="code_postalFeedback" placeholder="75001" required>
+         <div id="code_postalFeedback" class="invalid-feedback">Veuillez entrer un code postal</div>
+      </div>
+      <div class="form-field md:g-col-4">
+         <label for="pays" class="form-label">Pays</label>
+         <input type="text" class="form-control" id="pays" required aria-describedby="paysFeedback" placeholder="France" required>
+         <div id="paysFeedback" class="invalid-feedback">Veuillez entrer un pays</div>
+      </div>
+      <div class="form-field md:g-col-4">
+         <label for="telephone" class="form-label">Numéro de téléphone</label>
+         <input type="text" class="form-control" id="telephone" required aria-describedby="telephoneFeedback" placeholder="01 23 45 67 89" required>
+         <div id="telephoneFeedback" class="invalid-feedback">Veuillez entrer un numéro de téléphone</div>
+      </div>
+   </div>
+
+   <div class="form-group">
+      <label class="form-label">Vos identifiants de connexion</label>
+      <div class="form-field mb-1">
+         <label for="email" class="form-label">Email</label>
+         <input type="email" id="email" class="form-control" name="email" placeholder="Entrez votre email" required>
+         <div id="emailFeedback" class="invalid-feedback">Veuillez entrer un email valide</div>
+         </div>
+      </div>
+   <div>
+      <label for="password2" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password2" placeholder="Enter password" required aria-describedby="password2Feedback" data-bs-strength>
+      <div id="password2Feedback" class="invalid-feedback">Votre mot de passe doit contenir au moins 10 caractères, dont une majuscule, une minuscule, un chiffre et un caractère spécial.</div>
+      </div>
+      <div class="strength" data-bs-strength>
+         <div class="strength-segment"></div>
+         <div class="strength-segment"></div>
+         <div class="strength-segment"></div>
+         <div class="strength-segment"></div>
+      </div>
+      <span class="strength-text"></span>
+   </div>
+
+   <button class="btn-solid theme-primary justify-self-start" type="submit">Submit form</button>
+</form>

@@ -1,5 +1,7 @@
 import Route from "./Route.js";
 import { allRoutes, websiteName } from "./allRoutes.js";
+import * as bootstrap from '../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
+window.bootstrap = bootstrap;
 
 // Création d'une route pour la page 404 (page introuvable)
 const route404 = new Route("404", "Page introuvable", "/Vite_Gourmand_Front/pages/404.html");
@@ -38,6 +40,9 @@ const LoadContentPage = async () => {
     // Ajout du contenu HTML à l'élément avec l'ID "main-page"
    document.getElementById("main-page").innerHTML = html;
 
+   //Réiinitialisation des composants Bootstrap
+   initBootstrapComponents();
+
    // Injection du nouveau script s'il y en a un pour la route actuel
    if (actualRoute.pathJS != "") {
       var scriptTag=document.createElement("script");
@@ -52,6 +57,34 @@ const LoadContentPage = async () => {
     // Changement du titre de la page
    document.title = actualRoute.title + " - " + websiteName;
 };
+
+//Fonction pour initialiser les composants Bootstrap
+const initBootstrapComponents = () => {
+   //Dropdowns
+   document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(el => {
+      new bootstrap.Dropdown(el);
+   });
+
+   //Tooltips
+      document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+      new bootstrap.Tooltip(el);
+   });
+
+   //Popovers
+      document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el => {
+      new bootstrap.Popover(el);
+   });
+
+   //Collapse
+      document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(el => {
+      new bootstrap.Collapse(el);
+   });
+
+   //Offcanvas
+      document.querySelectorAll('[data-bs-toggle="offcanvas"]').forEach(el => {
+      new bootstrap.Offcanvas(el);
+   });
+}
 
 // Fonction pour gérer les événements de routage (clic sur les liens)
 const routeEvent = (event) => {
